@@ -1,74 +1,30 @@
 # Mario Kart 64 Multiplayer ROM Hack
-Mario Kart 64 ROM hack with configuration menu
+### Fray's Emulator/Netplay Build
+This is a fork of abitalive's Mario Kart 64 Multiplayer Hack which adds a couple of small updates to allow for an "improved" multiplayer experience on netplay or with emulators in general
 
-## Features
-### TITLE MENU Options
-- Aspect Ratio: 4:3* / 16:9**
-- Game Pacing: Original (15-30fps)* / 30fps** / 60fps
-- MP Music: Disabled* / Enabled**
-- VS Detail: Original* / High**
-  - Multiplayer DKJP Boat: Enabled / Disabled
-  - Multiplayer KD Train: Original / Full
-- Track Selection: Original / Random
-- Gold Mushroom: Original / Feather (Small) / Feather (Big)
+# Changes
+## New TITLE MENU Options
+### Lag Fix Default / Enabled
+- This hack prevents the game from slowing down in 4 player matches
+- This setting is enabled by default, but is known to break on console, as well as cause issues with the final lap music when combined with 60FPS
 
-### CHARACTER SELECT Options
-- Character Stats: Original / All Yoshi
+### VS Bomb Karts: Default / Disabled
+- Mini Bomb Karts can now be disabled for VS modes
 
-### GP MAP SELECT Options
-- Trophy Ceremony: Enabled / Disabled
+## Modified TITLE MENU Options
+### Game Pacing
+- Added a hack which makes the game run at 60fps when the 60fps pacing option is selected.
 
-### VS MAP SELECT Screen
-- Items: Original / P1 / P2 / P3 / P4 / P5 / P6 / P7 / P8
-- VS Timer: Enabled / Disabled
-- VS Track Order: Original / All Cups
+### Reorganized Menu Options
+- Moved Character Stats and Game Pacing options to the top of the list
 
-### VS MATCH RANKING Screen
-- Include total score by player as 2/1/0 (3P) or 3/2/1/0 (4P)
+### Changed Default Settings
+- Character Stats are **no longer** All Yoshi by default
+- Game Pacing is now 30fps by default
+- Trophy Ceremony is now skipped by default
+- Multiplayer Music is now enabled by default
 
-## TODO
-### TITLE MENU Options
-- Platform: N64* / Emulator**
-	- Purpose: Automatically change multiple visual settings (indicated here with */**) to be appropriate for the platform
-- VS Detail: Original / High
-  - Multiplayer MR Pipe: Original / Full
-  - Multiplayer MMF Trees: Enabled / Disabled
-  - Multiplayer SL Penguin: Enabled / Disabled
-  - Multiplayer FS Snow: Enabled / Disabled
-  - Multiplayer TT Cars: Original / Full
-- Anti-aliasing: Original / Disabled
-
-### CHARACTER SELECT Options
-- Characters: Menu / Random
-- Allow same character in multiplayer: Enabled / Disabled
-    - Note: Already implemented, requires menu option.
-
-### GAME SELECT Menu Options
-- Race Laps: Min [3], Max[3]
-	- Purpose: Each race randomly assigned a number of laps based on this range
-- Course Z Scaler: Original / Minimum / Maximum
-- Engine (150cc): 150cc / 200cc
-- Engine (Extra): 100cc / 150cc / 200cc
-- Backwards Courses: Enabled / Disabled
-	- Note: This will take some serious work but SKELUX made a proof of concept is at https://www.youtube.com/watch?v=fZfZkFYkEBQ
-
-### GP MAP SELECT Options
-- GP Cups: Single / All Cups
-
-### VS MAP SELECT Screen
-- Items: Balanced / Aggressive / Random / None
-- VS Timer: 3/4 Player
-- VS Track Order: All Cups (Random Order)
-- VS Bomb Karts: Enabled / Disabled
-- VS CPUs: None / 1 / 2 / 3 / 4 / 5 / 6 / 7
-
-### VS MATCH RANKING Screen
-- Restore "Quit" menu option
-
-### Battle MAP SELECT Options
-- Battle Bomb Phase: Enabled / Disabled
-
-## Building (Windows)
+# Building (Windows)
 - Clone or download the repository
 - Put "Mario Kart 64 (U) [!].z64" in the LIB directory
 - Download and extract [these files](https://drive.google.com/file/d/0B1g_ALmgbOzxSDdWVVA4TXdwWlk/view?usp=sharing) to the Multiplayer_Hack directory
