@@ -29,3 +29,6 @@ This is a fork of abitalive's Mario Kart 64 Multiplayer Hack which adds a couple
 - Put "Mario Kart 64 (U) [!].z64" in the LIB directory
 - Download and extract [these files](https://drive.google.com/file/d/0B1g_ALmgbOzxSDdWVVA4TXdwWlk/view?usp=sharing) to the Multiplayer_Hack directory
 - Drag and drop mk64_multiplayer_hack.asm onto asm.cmd
+
+# Acknowledgements
+- Special thanks to leodexe for compiling the [documentation](https://pastebin.com/D7J2L5yu) I used for this build
