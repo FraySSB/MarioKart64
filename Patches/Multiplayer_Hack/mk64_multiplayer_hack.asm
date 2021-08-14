@@ -48,7 +48,7 @@ scope Init: {
     nop
   Menu:
     la t0, Options
-    addiu t1, t0, 0x10 // 15 menu Options
+    addiu t1, t0, 0x14 // 19 menu Options
     li t2, 0x01010101
     Loop:
       sw t2, 0 (t0) // Initialize cursor and Options with 0x01
@@ -64,6 +64,7 @@ scope Init: {
       sb t1, 7 (t0) // Multiplayer Music
       sb t1, 11 (t0) // Versus Tracks
       sb t1, 15 (t0) // Versus Scores
+      sb t1, 16 (t0) // Polling Rate Fix
   lw ra, 0x14 (sp)
   jr ra
   addiu sp, 0x18
@@ -136,6 +137,10 @@ dd MenuEntry14Setting9, 0x00000000
 dd 0x00000002 // Versus Scores
 dd MenuEntry15
 dd MenuEntry15Setting1, MenuEntry15Setting2, 0x00000000
+
+dd 0x00000002 // Polling Rate Fix
+dd MenuEntry16
+dd MenuEntry16Setting1, MenuEntry16Setting2, 0x00000000
 
 dd 0x00000000, 0x00000000
 
@@ -262,11 +267,22 @@ Asciiz("default")
 MenuEntry15Setting2:
 Asciiz("enabled")
 
+MenuEntry16:
+Asciiz("polling")
+MenuEntry16Setting1:
+Asciiz("default")
+MenuEntry16Setting2:
+Asciiz("30hz")
+
 TitleString:
 Asciiz("abitalive  weatherton  abney  sully")
 
 NetplayString:
 Asciiz("   fray's emulator/netplay build   ")
+
+while (pc() % 0x4) { // Align
+  db 0x00
+}
 
 // Emulator Lag Fix (this is here because the hook runs before init)
 scope LagFix: { // Available registers: t9, t2
@@ -316,7 +332,7 @@ Title:
   nop
 la t0, MenuStrings // Array start
 addiu t1, r0, 0x01 // Entry number
-addiu a1, r0, 0x40 // Y coordinate
+addiu a1, r0, 0x38 // Y coordinate
 MenuArrayLoop:
   lw t2, 0x04 (t0) // Entry character string
   beq t2, r0, MenuInput
@@ -634,6 +650,43 @@ scope Scaling60FpsFix2: { // Available registers: t3, t1
     jr ra
     nop
 }
+
+scope PollingFix: {
+  LuiLb(t0, Options+16)
+  Disabled:
+    OriBne(t0, 0x01, at, Enabled) // If option disabled
+    b End
+    nop
+  Enabled:
+    OriBne(t0, 0x02, at, End) // If option enabled
+    LuiLb(t0, Options+2)
+    FpsDisabled:
+        OriBne(t0, 0x01, at, Fps30) // If scaling disabled
+        b End
+        nop
+    Fps30:
+        OriBne(t0, 0x02, at, Fps60) // Else if scaling set to 30 fps
+        b End
+        nop
+    Fps60:
+        OriBne(t0, 0x03, at, End) // Else if scaling set to 60 fps
+        li t0, Flag
+        lbu at, 0x0003(t0)
+        xori at, at, 0x0001
+        bnez at, End // Branch on every second iteration
+        sb at, 0x0003(t0)
+        j 0x80000A50 // Skip input polling
+        nop
+  End:
+    jal 0x800CD4F0 // Original instruction
+    nop
+    j 0x80000A3C
+    nop
+    
+  Flag:
+  fill 0x4
+}
+
 
 // Random Tracks
 scope RandomTracks: {
@@ -1198,6 +1251,11 @@ nop
 origin 0x0020CC
 base 0x800014CC
 jal Scaling60FpsFix2
+
+// Polling Rate Fix
+origin 0x001634
+base 0x80000A34
+j PollingFix
 
 // Widescreen
 origin 0x10E07C
